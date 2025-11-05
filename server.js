@@ -41,3 +41,33 @@ app.post("/courses", (req, res) => {
     res.send({ message: "Data inserted", data: result.affectedRows });
   });
 });
+
+// delete one course by using ID
+app.delete("/courses/:courseId", function (req, res) {
+  db.query(
+    "DELETE FROM courses WHERE id = " + req.params.courseId,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send({ message: "Course is deleted ", data: result });
+      }
+    }
+  );
+});
+
+// update course;
+app.put("/courses/:id", (req, res) => {
+  const id = req.params.id;
+  const name = req.body.name;
+  db.query(
+    `UPDATE courses SET name='${name}' WHERE id = '${id}'`,
+    (error, result) => {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
