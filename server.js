@@ -27,3 +27,17 @@ app.get("/courses/:cid", (req, res) => {
     }
   );
 });
+
+app.use(express.json()); // allow express application to read request body
+
+// insert new course
+app.post("/courses", (req, res) => {
+  // res.send({ message: "data uploaded", data: req.body });
+  const sql = `INSERT into courses (name, credits) VALUES ('${req.body.name}', '${req.body.credits}') `;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.send({ message: "Data inserted", data: result.affectedRows });
+  });
+});
